@@ -6,13 +6,13 @@ NoClip.Store = {
 	},
 	Config = {},
 	Translation = {},
-	Core = {}
+	Core = {},
+	Types = {}
 }
 
 print("Loading NoClip | Store")
 
-local path = "
-/"
+local path = "noclip_store/"
 if SERVER then
 	local files, folders = file.Find(path .. "*", "LUA")
 	
