@@ -9,3 +9,8 @@ NoClip.Store.Config.ServerID = "ABC123"
 
 -- How often (in seconds) should the server check for any new purchases?
 NoClip.Store.Config.Check = 30
+
+-- Show a notification when a package is purchased
+NoClip.Store.Config.ShowNotification = true
+-- If true, show the notification to everyone?
+NoClip.Store.Config.ShowNotificationToEveryone = true

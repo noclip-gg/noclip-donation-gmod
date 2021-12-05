@@ -11,3 +11,11 @@ function NoClip.Store.Core.Error(error)
 
 	-- Maybe we can log it somewhere, like an SQL databse??
 end
+
+-- The networking for notifications
+util.AddNetworkString("NoClip:Store:Notification")
+function NoClip.Store.Core.Notification(msg, ply)
+	net.Start("NoClip:Store:Notification")
+		net.WriteString(msg)
+	net.Send(ply)
+end

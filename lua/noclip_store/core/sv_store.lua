@@ -37,19 +37,15 @@ function NoClip.Store.Core.EventProcess(data)
 		typeFunc(data.receiver_game_id, false, v)
 	end
 	
-	--
-	--- Possibly some kind of thing to notify everyone/the player of their reward?
-	--- Possibly a UI? Or even maybe like a small firework particle around the player?
-	--- Gotta give that Dopamine rush!
-	--
+	-- Post the notification
+	local receiver = player.GetBySteamID64(data.receiver_game_id)
+	if NoClip.Store.Config.ShowNotification and receiver then
+		NoClip.Store.Core.Notification(string.format(NoClip.Store.Translation.NotifPurchase, receiver:Name(), data.package.name), NoClip.Store.Config.ShowNotificationToEveryone and player.GetAll() or receiver)
+	end
 
 	NoClip.Store.Core.EventMarkProcessed(data.id)
 end
 
-
 function NoClip.Store.Core.EventMarkProcessed(eventID)
 	http.Post(string.format("%s/api/v1/servers/%s/events/%s/process?api_key=%s", NoClip.Store.Config.URL, NoClip.Store.Config.ServerID, eventID, NoClip.Store.Config.APIKey))
 end
-
--- NoClip.Store.Core.Check()
--- lua_run NoClip.Store.Core.Check()

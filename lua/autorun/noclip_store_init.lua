@@ -7,7 +7,9 @@ NoClip.Store = {
 	Config = {},
 	Translation = {},
 	Core = {},
-	Types = {}
+	Types = {},
+	UI = {},
+	Notifications = {}
 }
 
 print("Loading NoClip | Store")
