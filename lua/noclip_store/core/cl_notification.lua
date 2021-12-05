@@ -13,7 +13,7 @@ local activeNotification
 function NoClip.Store.UI.Notification(msg)
 	-- All the stuff to get the sizes
 	local scrW, scrH = ScrW(), ScrH()
-	local boxSize = scrH*0.2
+	local boxSize = scrH*0.25
 	surface.SetFont("noclip_header")
 	local headerTextH = select(2, surface.GetTextSize(NoClip.Store.Translation.NotifHeader))
 	surface.SetFont("noclip_body")
