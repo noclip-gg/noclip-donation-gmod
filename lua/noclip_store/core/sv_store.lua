@@ -36,6 +36,8 @@ function NoClip.Store.Core.EventProcess(data)
 
 		typeFunc(data.receiver_game_id, false, v)
 	end
+
+	hook.Run("NoClipStorePostEventProcess", data.id, data)
 	
 	-- Post the notification
 	local receiver = player.GetBySteamID64(data.receiver_game_id)
