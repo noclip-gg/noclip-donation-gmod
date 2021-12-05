@@ -10,7 +10,7 @@ Gmod implementation of the Noclip Donation Panel
 [SERVER] NoClip.Store.Core.Check()
 ```
 
-### Description
+#### Description
 Has the server check against the API for any new purchases. Calls the `NoClipStoreCheck` hook internally.
 
 
@@ -18,10 +18,10 @@ Has the server check against the API for any new purchases. Calls the `NoClipSto
 [SERVER] NoClip.Store.Core.Error(error)
 ```
 
-### Description
+#### Description
 Register an internal error with the store. Currently this just prints a message to console, but could be used for persistent logging errors in the future.
 
-### Arguments
+#### Arguments
 String `error` - The error message.
 
 
@@ -29,10 +29,10 @@ String `error` - The error message.
 [SERVER] NoClip.Store.Core.Notification(msg, ply)
 ```
 
-### Description
+#### Description
 Send a notification to a client. This will respect the queue. `ply` can also be `player.GetAll()` or a table of players with the intent of mass sending the message.
 
-### Arguments
+#### Arguments
 String `msg` - The message to send.
 Entity/Table `ply` - The player(s) to send the message to.
 
@@ -41,10 +41,10 @@ Entity/Table `ply` - The player(s) to send the message to.
 [SERVER] NoClip.Store.Core.EventProcess(data)
 ```
 
-### Description
+#### Description
 Used to process an event from the data given by the API. If you want to process custom actions on an event, use `NoClipStorePostEventProcess` instead.
 
-### Arguments
+#### Arguments
 Table `data` - The data given by the API.
 
 
@@ -52,10 +52,10 @@ Table `data` - The data given by the API.
 [SERVER] NoClip.Store.Core.EventMarkProcessed(eventID)
 ```
 
-### Description
+#### Description
 Used to mark an event as processed with the API. Removing it from the queue.
 
-### Arguments
+#### Arguments
 String `eventID` - The unique ID for this event.
 
 
@@ -64,10 +64,10 @@ String `eventID` - The unique ID for this event.
 [CLIENT] NoClip.Store.UI.Notification(msg)
 ```
 
-### Description
+#### Description
 Render a new notification to the client. This function does not respect the queue.
 
-### Arguments
+#### Arguments
 String `msg` - The message to show.
 
 
@@ -75,12 +75,12 @@ String `msg` - The message to show.
 [CLIENT] NoClip.Store.Notifications.Next()
 ```
 
-### Description
+#### Description
 Have the next notification in the queue show. If a notification is already active, this will silently fail.
 
 
 
-## Hooks
+### Hooks
 
 ```
 [SERVER] NoClipStoreCheck
