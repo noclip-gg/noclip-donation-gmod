@@ -64,6 +64,7 @@ Table `data` - The raw response from the API, converted from JSON to a table.
 Called whenever an event is about to be processed. Returning `false` will prevent this event from processing. The even however, will still be attempted to process again on next check. In order to prevent this, you will need to mark the event as processed yourself. You can do this by calling `YetImplementedFunction` with the eventID.
 #### Arguments
 Int `eventID` - The unique ID for this event.
+Player `receiver` - The player receiving the rewards.
 Table `data` - All of the data received from the API for this event.
 
 ### [SERVER] NoClipStorePostEventProcess
@@ -71,4 +72,5 @@ Table `data` - All of the data received from the API for this event.
 Called after an event has been processed and all actions are complete. You can use this to do extra actions.
 #### Arguments
 Int `eventID` - The unique ID for this event.
+Player `receiver` - The player receiving the rewards.
 Table `data` - All of the data received from the API for this event.

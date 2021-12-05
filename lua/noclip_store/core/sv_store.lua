@@ -22,8 +22,12 @@ function NoClip.Store.Core.Check()
 end
 
 function NoClip.Store.Core.EventProcess(data)
+	-- Get the player
+	local receiver = player.GetBySteamID64(data.receiver_game_id)
+	if not IsValid(receiver) then return end -- They're not online, keep checking the event till they are.
+
 	-- Allow for this event to be blocked
-	local block = hook.Run("NoClipStorePreEventProcess", data.id, data)
+	local block = hook.Run("NoClipStorePreEventProcess", data.id, receiver, data)
 	if block == false then return end -- A hook has killed this process
 
 	-- Run the actions for this event
@@ -34,14 +38,13 @@ function NoClip.Store.Core.EventProcess(data)
 			continue
 		end
 
-		typeFunc(data.receiver_game_id, false, v)
+		typeFunc(receiver, false, v)
 	end
 
-	hook.Run("NoClipStorePostEventProcess", data.id, data)
+	hook.Run("NoClipStorePostEventProcess", data.id, receiver, data)
 	
 	-- Post the notification
-	local receiver = player.GetBySteamID64(data.receiver_game_id)
-	if NoClip.Store.Config.ShowNotification and receiver then
+	if NoClip.Store.Config.ShowNotification then
 		NoClip.Store.Core.Notification(string.format(NoClip.Store.Translation.NotifPurchase, receiver:Name(), data.package.name), NoClip.Store.Config.ShowNotificationToEveryone and player.GetAll() or receiver)
 	end
 
