@@ -54,3 +54,18 @@ end
 function NoClip.Store.Core.EventMarkProcessed(eventID)
 	http.Post(string.format("%s/api/v1/servers/%s/events/%s/process?api_key=%s", NoClip.Store.Config.URL, NoClip.Store.Config.ServerID, eventID, NoClip.Store.Config.APIKey))
 end
+
+-- Register a new action type
+function NoClip.Store.Core.RegisterType(api_name, action)
+	if NoClip.Store.Types[api_name] then
+		NoClip.Store.Core.Error("Attempted to register an action type that has already been registed. This type was: "..api_name)
+		return
+	end
+
+	NoClip.Store.Types[api_name] = action
+end
+-- Load all the files in /types
+for b, File in SortedPairs(file.Find("noclip_store/core/types/*.lua", "LUA"), true) do
+	print("	Loading type file: ", File)
+    include("noclip_store/core/types/" .. File)
+end
