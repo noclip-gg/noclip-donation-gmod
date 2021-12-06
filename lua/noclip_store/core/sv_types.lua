@@ -22,6 +22,15 @@ NoClip.Store.Types['rank'] = function(ply, expired, data)
 		NoClip.Store.Core.Error("Attempted to assign "..ply:SteamID().." the rank "..rank..", but no admin system was found.")
 	end
 end
+-- Console Command
+NoClip.Store.Types['custom_console_command'] = function(ply, expired, data)
+	local command = data.data.console_command
+	command = string.Replace(command, "{player.name}", "\""..ply:Name().."\"")
+	command = string.Replace(command, "{player.steamID}", ply:SteamID())
+	command = string.Replace(command, "{player.steamID64}", ply:SteamID64())
+
+	game.ConsoleCommand(command.."\n")
+end
 -- Pointshop 1 points
 NoClip.Store.Types['pointshop_1_points'] = function(ply, expired, data)
 	if not ply.PS_GivePoints then return end
