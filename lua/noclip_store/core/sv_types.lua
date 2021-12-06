@@ -24,9 +24,11 @@ NoClip.Store.Types['rank'] = function(ply, expired, data)
 end
 -- Pointshop 1 points
 NoClip.Store.Types['pointshop_1_points'] = function(ply, expired, data)
+	if not ply.PS_GivePoints then return end
 	ply:PS_GivePoints(data.data.points)
 end
 -- Pointshop w points
 NoClip.Store.Types['pointshop_2_points'] = function(ply, expired, data)
+	if not ply.PS2_AddStandardPoints then return end
 	ply:PS2_AddStandardPoints(data.data.points)
 end
