@@ -62,3 +62,8 @@ NoClip.Store.Types['pointshop_2_premium_points'] = function(ply, expired, data)
 	if not ply.PS2_AddPremiumPoints then return end
 	ply:PS2_AddPremiumPoints(data.data.points)
 end
+-- DarkRP Money
+NoClip.Store.Types['darkrp_money'] = function(ply, expired, data)
+	if not DarkRP then return end
+	ply:addMoney(data.data.money)
+end
