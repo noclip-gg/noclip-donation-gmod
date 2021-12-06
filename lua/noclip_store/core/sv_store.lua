@@ -34,7 +34,7 @@ function NoClip.Store.Core.EventProcess(data)
 	for k, v in ipairs(data.package.actions.data) do
 		local typeFunc = NoClip.Store.Types[v.type]
 		if not typeFunc then
-			NoClip.Store.Core.Error("Attempted to process an action but the type function was not found.")
+			NoClip.Store.Core.Error("Attempted to process an action but the type function was not found. The action type was: "..v.type)
 			continue
 		end
 
