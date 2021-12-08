@@ -1,7 +1,8 @@
 -- Ranks
 -- Also need to account for a lot more admin systems
 NoClip.Store.Core.RegisterType("rank", function(ply, expired, data)
-	local rank = expired and data.data.rank_expire or data.data.rank_to_give
+	local rank = expired and (data.data.rank_expire or "") or data.data.rank_to_give
+	if (not rank) or (rank == "") then return end
 
 	-- ULIB/ULX (https://github.com/TeamUlysses/ulx)
 	if ULib then

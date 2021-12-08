@@ -1,11 +1,15 @@
 -- DarkRP Money
 NoClip.Store.Core.RegisterType("darkrp_money", function(ply, expired, data)
 	if not DarkRP then return end
+	if expired then return end
+
 	ply:addMoney(data.data.money)
 end)
 
 -- DarkRP Levels
 NoClip.Store.Core.RegisterType("darkrp_levels", function(ply, expired, data)
+	if expired then return end
+	
 	-- Vrondakis' leveling system (https://github.com/uen/Leveling-System)
 	if LevelSystemConfiguration then
 		ply:addLevels(data.data.levels)
