@@ -16,6 +16,12 @@ NoClip.Store.Core.RegisterType("rank", function(ply, expired, data)
 	elseif sam then
 		ply:sam_set_rank(rank)
 
+	-- xAdmin2 (https://www.gmodstore.com/market/view/xadmin-2-admin-mod)
+	-- There is no id for xAdmin2 to know if it's not xAdmin1/free xadmin,
+	-- so I just took the first unique table I could find.
+	elseif xAdmin and xAdmin.CommandRestrictions then
+		xAdmin.SetGroup(ply, rank)
+
 	-- No admin system found
 	else
 		NoClip.Store.Core.Error("Attempted to assign "..ply:SteamID().." the rank "..rank..", but no admin system was found.")
