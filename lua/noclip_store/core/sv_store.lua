@@ -44,7 +44,7 @@ function NoClip.Store.Core.EventProcess(data)
 			continue
 		end
 
-		typeFunc(receiver, expired, v)
+		typeFunc(receiver, expired, v, data)
 	end
 
 	hook.Run("NoClipStorePostEventProcess", data.id, receiver, data)
