@@ -1,5 +1,5 @@
 -- Custom Lua Action
-NoClip.Store.Core.RegisterType("custom_lua", function(ply, expired, data)
+NoClip.Store.Core.RegisterType("custom_lua", function(ply, expired, data, eventData)
 	NoClip.Store.TempPlayer = ply -- This seems like the easiest and most reliable way to pass an object.
 
 	local code = expired and (data.data.custom_lua_expire or "") or data.data.custom_lua
@@ -9,6 +9,7 @@ NoClip.Store.Core.RegisterType("custom_lua", function(ply, expired, data)
 	code = string.Replace(code, "{player.steamID}", "\""..ply:SteamID().."\"")
 	code = string.Replace(code, "{player.steamID64}", "\""..ply:SteamID64().."\"")
 	code = string.Replace(code, "{player.name}", "\""..string.Replace(ply:Name(), "\"", "").."\"")
+	code = string.Replace(code, "{purchase.amount}", eventData.purchase_amount)
 
 	local errorMsg = RunString(code, "NoClipStoreCustomLuaAction", false)
 	if errorMsg then
