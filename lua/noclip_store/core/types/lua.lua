@@ -8,6 +8,7 @@ NoClip.Store.Core.RegisterType("custom_lua", function(ply, expired, data)
 	code = string.Replace(code, "{player.entity}", "NoClip.Store.TempPlayer")
 	code = string.Replace(code, "{player.steamID}", "\""..ply:SteamID().."\"")
 	code = string.Replace(code, "{player.steamID64}", "\""..ply:SteamID64().."\"")
+	code = string.Replace(code, "{player.name}", "\""..string.Replace(ply:Name(), "\"", "").."\"")
 
 	local errorMsg = RunString(code, "NoClipStoreCustomLuaAction", false)
 	if errorMsg then
