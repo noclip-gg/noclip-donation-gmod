@@ -2,7 +2,7 @@ NoClip = NoClip or {}
 -- Create the master table
 NoClip.Store = {
 	Info = {
-		Version = "1.1"
+		Version = "1.1.1"
 	},
 	Config = {},
 	Translation = {},
@@ -54,5 +54,8 @@ if CLIENT then
 	    end
 	end
 end
+
+-- Remove any poorly input URLs for the config
+NoClip.Store.Config.URL = string.Trim(NoClip.Store.Config.URL, "/")
 
 print("Loaded NoClip | Store")

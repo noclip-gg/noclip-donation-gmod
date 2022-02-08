@@ -1,4 +1,4 @@
--- Your community's API key. Can be found here: https://mycommunity.noclip.me/dashboard/forums/settings/misc
+-- Your community's API key. Can be found here: https://mycommunity.noclip.me/dashboard/settings
 NoClip.Store.Config.APIKey = "ABC-123-XYZ"
 
 -- The URL to your community. Ensure there is no trailing "/"
