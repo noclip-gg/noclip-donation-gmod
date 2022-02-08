@@ -2,7 +2,7 @@ NoClip = NoClip or {}
 -- Create the master table
 NoClip.Store = {
 	Info = {
-		Version = "1.0"
+		Version = "1.1"
 	},
 	Config = {},
 	Translation = {},
