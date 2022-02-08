@@ -55,4 +55,7 @@ if CLIENT then
 	end
 end
 
+-- Remove any poorly input URLs for the config
+NoClip.Store.Config.URL = string.Trim(NoClip.Store.Config.URL, "/")
+
 print("Loaded NoClip | Store")
