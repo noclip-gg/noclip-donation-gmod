@@ -36,6 +36,9 @@ if SERVER then
 	        AddCSLuaFile(path .. folder .. "/" .. File)
 	    end
 	end
+
+	-- Remove any poorly input URLs for the config
+	NoClip.Store.Config.URL = string.Trim(NoClip.Store.Config.URL, "/")
 end
 
 if CLIENT then
@@ -54,8 +57,5 @@ if CLIENT then
 	    end
 	end
 end
-
--- Remove any poorly input URLs for the config
-NoClip.Store.Config.URL = string.Trim(NoClip.Store.Config.URL, "/")
 
 print("Loaded NoClip | Store")
