@@ -5,17 +5,33 @@ local EVENT_REVOKED = 3
 local httpFetch
 local httpPost
 do
-    local result = pcall(require, "reqwest")
 
-    if not result and not reqwest then
-        NoClip.ReqwestErrorMessage = function()
-            print("[Noclip] reqwest not found. Please install it from https://github.com/WilliamVenner/gmsv_reqwest or your hosting providers mod manager.")
-            print("[Noclip] Noclip will not work until reqwest is installed.")
-            print("[Noclip] If you need help, join the discord at https://noclip.gg/discord")
-        end
-        NoClip.ErrorMessage()
-        return
-    end
+	if not reqwest and not CHTTP then
+		local suffix = ({"osx64", "osx", "linux64", "linux", "win64", "win32"})[(system.IsWindows() and 4 or 0) + (system.IsLinux() and 2 or 0) + (jit.arch == "x86" and 1 or 0) + 1]
+		local fmt = "lua/bin/gm" .. (CLIENT and "cl" or "sv") .. "_%s_%s.dll"
+		local function installed(name)
+			if file.Exists(string.format(fmt, name, suffix), "GAME") then return true end
+			if jit.versionnum ~= 20004 and jit.arch == "x86" and system.IsLinux() then return file.Exists(string.format(fmt, name, "linux32"), "GAME") end
+			return false
+		end
+
+		if installed("reqwest") then
+			require("reqwest")
+		end
+		if not reqwest and installed("chttp") then
+			require("chttp")
+		end
+		if not CHTTP then
+			NoClip.HTTPModuleErrorMessage = function()
+				print("[Noclip] reqwest or CHTTP not found. Please install it from https://github.com/WilliamVenner/gmsv_reqwest or your hosting providers mod manager.")
+				print("[Noclip] Noclip will not work until reqwest or CHTTP is installed.")
+				print("[Noclip] If you need help, join the discord at https://noclip.gg/discord")
+			end
+			NoClip.ErrorMessage()
+		end
+	end
+
+	local HTTP = reqwest or CHTTP
 
     local function debugHTTP(msg)
         if not NoClip.Store.Config.LogHTTP then return end
@@ -23,7 +39,7 @@ do
     end
 
     httpFetch = function(url, onsuccess, onfailure, header)
-        reqwest({
+        HTTP({
             url = url,
             method = "GET",
             headers = header or {},
@@ -37,7 +53,7 @@ do
     end
 
     httpPost = function(url, params, onsuccess, onfailure, header)
-        reqwest({
+        HTTP({
             url = url,
             method = "POST",
             headers = header or {},
@@ -51,7 +67,7 @@ do
         })
     end
 
-    NoClip.HasReqwest = true
+    NoClip.HasHTTPModule = true
 end
 
 -- Probably a better name for this function?
@@ -100,7 +116,7 @@ function NoClip.Store.Core.EventProcess(data)
 	end
 
 	hook.Run("NoClipStorePostEventProcess", data.id, receiver, data)
-	
+
 	-- Post the notification
 	if NoClip.Store.Config.ShowNotification then
 		NoClip.Store.Core.Notification(string.format(expired and NoClip.Store.Translation.NotifExpired or NoClip.Store.Translation.NotifPurchase, receiver:Name(), data.package.name), NoClip.Store.Config.ShowNotificationToEveryone and player.GetAll() or receiver)

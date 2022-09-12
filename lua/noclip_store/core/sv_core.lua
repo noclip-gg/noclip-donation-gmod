@@ -1,8 +1,8 @@
 -- Start the timer to constantly check for updates
 hook.Add("Initialize", "NoClip:Store:Load", function()
 	timer.Create("NoClip:Store:Check", NoClip.Store.Config.Check, 0, function()
-        if not NoClip.HasReqwest then
-            NoClip.ReqwestErrorMessage()
+        if not NoClip.HasHTTPModule then
+            NoClip.HTTPModuleErrorMessage()
         end
 		NoClip.Store.Core.Check()
 	end)
