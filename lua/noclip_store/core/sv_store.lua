@@ -8,13 +8,16 @@ do
     local result = pcall(require, "reqwest")
 
     if not result and not reqwest then
-        print("[Noclip] reqwest not found. Please install it from https://github.com/WilliamVenner/gmsv_reqwest or your hosting providers mod manager.")
-        print("[Noclip] Noclip will not work until reqwest is installed.")
-        print("[Noclip] If you need help, join the discord at https://noclip.gg/discord")
+        NoClip.ReqwestErrorMessage = function()
+            print("[Noclip] reqwest not found. Please install it from https://github.com/WilliamVenner/gmsv_reqwest or your hosting providers mod manager.")
+            print("[Noclip] Noclip will not work until reqwest is installed.")
+            print("[Noclip] If you need help, join the discord at https://noclip.gg/discord")
+        end
+        NoClip.ErrorMessage()
         return
     end
 
-    local noclip_debug = false
+    local noclip_debug = true
     local function debugHTTP(msg)
         if not noclip_debug then return end
         print("[NoclipDebug] " .. msg)
@@ -48,6 +51,8 @@ do
             failed = function(err) debugHTTP("FAIL " .. err) if not onfailure then return end onfailure(err) end
         })
     end
+
+    NoClip.HasReqwest = true
 end
 
 -- Probably a better name for this function?
