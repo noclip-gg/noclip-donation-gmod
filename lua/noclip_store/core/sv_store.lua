@@ -28,8 +28,8 @@ do
             method = "GET",
             headers = header or {},
             success = function(code, body, headers)
+                debugHTTP("POST " .. url .. " " .. code)
                 if not onsuccess then return end
-                debugHTTP("GET " .. url .. " " .. code)
                 onsuccess(body, body:len(), headers, code)
             end,
             failed = function(err) debugHTTP("FAIL " .. err) if not onfailure then return end onfailure(err) end
