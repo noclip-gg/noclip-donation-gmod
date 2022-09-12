@@ -17,9 +17,8 @@ do
         return
     end
 
-    local noclip_debug = true
     local function debugHTTP(msg)
-        if not noclip_debug then return end
+        if not NoClip.Store.Config.LogHTTP then return end
         print("[NoclipDebug] " .. msg)
     end
 
@@ -64,7 +63,7 @@ function NoClip.Store.Core.Check()
 			-- Seems we received some unexpected data
 			if not data then
 				NoClip.Store.Core.Error("Invalid JSON response from API /events route!")
-				return 
+				return
 			end
 
 			-- Broadcast it in a hook, to allow other devs to do stuff
