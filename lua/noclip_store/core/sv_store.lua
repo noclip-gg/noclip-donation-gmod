@@ -2,16 +2,68 @@ local EVENT_PURCAHSED = 1
 local EVENT_EXPIRED = 2
 local EVENT_REVOKED = 3
 
+local httpFetch
+local httpPost
+do
+    local result = pcall(require, "reqwest")
+
+    if not result and not reqwest then
+        NoClip.ReqwestErrorMessage = function()
+            print("[Noclip] reqwest not found. Please install it from https://github.com/WilliamVenner/gmsv_reqwest or your hosting providers mod manager.")
+            print("[Noclip] Noclip will not work until reqwest is installed.")
+            print("[Noclip] If you need help, join the discord at https://noclip.gg/discord")
+        end
+        NoClip.ErrorMessage()
+        return
+    end
+
+    local function debugHTTP(msg)
+        if not NoClip.Store.Config.LogHTTP then return end
+        print("[NoclipDebug] " .. msg)
+    end
+
+    httpFetch = function(url, onsuccess, onfailure, header)
+        reqwest({
+            url = url,
+            method = "GET",
+            headers = header or {},
+            success = function(code, body, headers)
+                debugHTTP("POST " .. url .. " " .. code)
+                if not onsuccess then return end
+                onsuccess(body, body:len(), headers, code)
+            end,
+            failed = function(err) debugHTTP("FAIL " .. err) if not onfailure then return end onfailure(err) end
+        })
+    end
+
+    httpPost = function(url, params, onsuccess, onfailure, header)
+        reqwest({
+            url = url,
+            method = "POST",
+            headers = header or {},
+            parameters = params,
+            success = function(code, body, headers)
+                if not onsuccess then return end
+                debugHTTP("POST " .. url .. " " .. code)
+                onsuccess(body, body:len(), headers, code)
+            end,
+            failed = function(err) debugHTTP("FAIL " .. err) if not onfailure then return end onfailure(err) end
+        })
+    end
+
+    NoClip.HasReqwest = true
+end
+
 -- Probably a better name for this function?
 function NoClip.Store.Core.Check()
 	-- Check the API using the config values
-	http.Fetch(string.format("%s/api/v1/gmod/servers/%s/events?api_key=%s", NoClip.Store.Config.URL, NoClip.Store.Config.ServerID, NoClip.Store.Config.APIKey),
+	httpFetch(string.format("%s/api/v1/gmod/servers/%s/events?api_key=%s", NoClip.Store.Config.URL, NoClip.Store.Config.ServerID, NoClip.Store.Config.APIKey),
 		function(body, size, headers, code)
 			local data = util.JSONToTable(body)
 			-- Seems we received some unexpected data
 			if not data then
 				NoClip.Store.Core.Error("Invalid JSON response from API /events route!")
-				return 
+				return
 			end
 
 			-- Broadcast it in a hook, to allow other devs to do stuff
@@ -58,7 +110,7 @@ function NoClip.Store.Core.EventProcess(data)
 end
 
 function NoClip.Store.Core.EventMarkProcessed(eventID)
-	http.Post(string.format("%s/api/v1/gmod/servers/%s/events/%s/process?api_key=%s", NoClip.Store.Config.URL, NoClip.Store.Config.ServerID, eventID, NoClip.Store.Config.APIKey))
+	httpPost(string.format("%s/api/v1/gmod/servers/%s/events/%s/process?api_key=%s", NoClip.Store.Config.URL, NoClip.Store.Config.ServerID, eventID, NoClip.Store.Config.APIKey))
 end
 
 -- Register a new action type
